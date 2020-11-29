@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# DVPi 를 사용할때 파일을 Editing하기 편리하게 하는 프로그램
+
+source /var/lib/dvswitch/dvs/var.txt
+
+dvp=/home/pi/
+
+
+OPTION=$(whiptail --title " $T211 " --menu "\
+\n
+$sp05 $T001: Ctrl-X >> Y >> Enter
+$sp05 $T002: Ctrl-X >> N
+" 23 43 11 \
+1 "$T007 Analog_Bridge.ini" \
+2 "$T007 2-Analog_Bridge.ini" \
+3 "$T007 MMDVM_Bridge.ini" \
+4 "$T007 2-MMDVM_Bridge.ini" \
+5 "$T007 DVSwitch.ini" \
+6 "$T007 2-DVSwitch.ini" \
+7 "$T007 dvpi.ini" \
+8 "$T007 ircddbgateway" \
+9 "$T007 Restart Service 1" \
+10 "$T007 Restart Service 2" \
+11 "EXIT"  3>&1 1>&2 2>&3)
+
+if [ $? != 0 ]; then exit 0
+fi
+
+case $OPTION in
+1)
+sudo nano ${AB}Analog_Bridge.ini; ${dvp}dvp ;;
+2)
+sudo nano /opt/Analog_Bridge2/Analog_Bridge.ini; ${dvp}dvp ;;
+3)
+sudo nano ${MB}MMDVM_Bridge.ini; ${dvp}dvp ;;
+4)
+sudo nano /opt/MMDVM_Bridge2/MMDVM_Bridge.ini; ${dvp}dvp ;;
+5)
+sudo nano ${MB}DVSwitch.ini; ${dvp}dvp ;;
+6)
+sudo nano /opt/MMDVM_Bridge2/DVSwitch.ini; ${dvp}dvp ;;
+7)
+sudo nano /home/pi/dvpi/dvpi.ini; ${dvp}dvp ;;
+8)
+sudo nano /etc/ircddbgateway; ${dvp}dvp ;;
+9)
+sudo systemctl restart analog_bridge mmdvm_bridge; ${dvp}dvp ;;
+10)
+sudo systemctl restart analog_bridge2 mmdvm_bridge2; ${dvp}dvp ;;
+11)
+exit 0
+esac
+
+clear
+
+exit 0
+
